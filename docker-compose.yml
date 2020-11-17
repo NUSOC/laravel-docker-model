@@ -1,0 +1,48 @@
+---
+version: "3"
+services:
+
+  laravel:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      ./:/var/www/html
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "1"
+    networks:
+      - default
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+      - traefik.frontend.rule=Host:$URL
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./db_data:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      MYSQL_DATABASE: $DB_DATABASE
+      MYSQL_USER: $DB_USERNAME
+      MYSQL_PASSWORD: $DB_PASSWORD
+    logging:
+      options:
+        max-size: "5m"
+        max-file: "1"
+    networks:
+      - default
+    labels:
+      - traefik.enable=false
+
+networks:
+
+  default:
+    internal: true
+  proxy:
+    external: true
