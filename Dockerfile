@@ -11,5 +11,6 @@ RUN apt-get update && apt-get install -y \
     unzip
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring
-RUN composer up \
-&& php artisan migrate
+COPY --chown=33:33 ./project/ /var/www/html/
+RUN sed -i '/DFOREGROUND/i composer up && php artisan migrate' /usr/local/bin/apache2-foreground \
+&& sed -i '/artisan/i export COMPOSER_HOME="~/.config/composer"' /usr/local/bin/apache2-foreground
