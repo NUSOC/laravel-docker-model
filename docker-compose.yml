@@ -22,7 +22,7 @@ services:
   db:
     image: mysql:5.7
     volumes:
-      - laravel_db:/var/lib/mysql
+      - ./laravel_db:/var/lib/mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
