@@ -21,5 +21,5 @@ DB_HOST=db
 `docker-compose up -d`
 
 # Benefits
-- Includes composer
-- On `up`, it runs `composer up` and `php artisan migrate` 
+- Includes [composer](https://github.com/NUSOC/laravel-docker-model/blob/e0e44f21b11da9b59ae46bb71b25bf48a1f58e3f/Dockerfile#L2)
+- On `up`, it runs `composer up` and `php artisan migrate` by [altering](https://github.com/NUSOC/laravel-docker-model/blob/e0e44f21b11da9b59ae46bb71b25bf48a1f58e3f/Dockerfile#L15) the last line of apache2-foreground
