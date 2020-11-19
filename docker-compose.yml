@@ -7,15 +7,13 @@ services:
     restart: unless-stopped
     depends_on:
       - db
-    volumes:
-      - ./:/var/www/html
+    networks:
+      - default
+      - proxy
     logging:
       options:
         max-size: "5m"
         max-file: "1"
-    networks:
-      - default
-      - proxy
     labels:
       - traefik.enable=true
       - traefik.docker.network=proxy
@@ -24,19 +22,19 @@ services:
   db:
     image: mysql:5.7
     volumes:
-      - ./db_data:/var/lib/mysql
+      - laravel_db:/var/lib/mysql
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
       MYSQL_DATABASE: $DB_DATABASE
       MYSQL_USER: $DB_USERNAME
       MYSQL_PASSWORD: $DB_PASSWORD
+    networks:
+      - default
     logging:
       options:
         max-size: "5m"
         max-file: "1"
-    networks:
-      - default
     labels:
       - traefik.enable=false
 
